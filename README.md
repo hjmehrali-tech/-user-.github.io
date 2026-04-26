@@ -1,1 +1,601 @@
 # -user-.github.io
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0a08;
+    color: #e8e4dc;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 0.5px solid rgba(232,228,220,0.1);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,8,0.85);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: #e8e4dc;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(232,228,220,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: #e8e4dc; }
+
+  .nav-cta {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.25rem;
+    border: 0.5px solid rgba(232,228,220,0.3);
+    color: #e8e4dc;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+    border-radius: 2px;
+  }
+
+  .nav-cta:hover { background: rgba(232,228,220,0.08); border-color: rgba(232,228,220,0.6); }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 92vh;
+    border-bottom: 0.5px solid rgba(232,228,220,0.1);
+  }
+
+  .hero-left {
+    padding: 5rem 3rem 5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 0.5px solid rgba(232,228,220,0.1);
+  }
+
+  .hero-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(232,228,220,0.4);
+    margin-bottom: 2rem;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: rgba(232,228,220,0.45);
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+    color: rgba(232,228,220,0.55);
+    line-height: 1.7;
+    max-width: 380px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border: 0.5px solid rgba(232,228,220,0.2);
+    border-radius: 1px;
+    color: rgba(232,228,220,0.6);
+  }
+
+  .badge.accent {
+    border-color: rgba(212,190,130,0.4);
+    color: rgba(212,190,130,0.9);
+    background: rgba(212,190,130,0.06);
+  }
+
+  .hero-right {
+    padding: 5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 3rem;
+  }
+
+  .stat-block {
+    border-top: 0.5px solid rgba(232,228,220,0.1);
+    padding-top: 1.5rem;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #e8e4dc;
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(232,228,220,0.4);
+  }
+
+  .school-note {
+    padding: 1.5rem;
+    border: 0.5px solid rgba(232,228,220,0.1);
+    border-radius: 2px;
+    margin-top: auto;
+  }
+
+  .school-note-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(212,190,130,0.7);
+    margin-bottom: 0.5rem;
+  }
+
+  .school-note-text {
+    font-size: 0.9rem;
+    color: rgba(232,228,220,0.7);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* SECTION COMMON */
+  section {
+    border-bottom: 0.5px solid rgba(232,228,220,0.1);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 2rem 3rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .section-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: rgba(232,228,220,0.3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #e8e4dc;
+  }
+
+  /* EXPERIENCE */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 0.5px solid rgba(232,228,220,0.1);
+  }
+
+  .exp-item {
+    padding: 2rem 3rem;
+    border-right: 0.5px solid rgba(232,228,220,0.1);
+    border-bottom: 0.5px solid rgba(232,228,220,0.1);
+    transition: background 0.2s;
+  }
+
+  .exp-item:nth-child(even) { border-right: none; }
+
+  .exp-item:hover { background: rgba(232,228,220,0.025); }
+
+  .exp-org {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(212,190,130,0.7);
+    margin-bottom: 0.6rem;
+  }
+
+  .exp-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .exp-desc {
+    font-size: 0.85rem;
+    color: rgba(232,228,220,0.5);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .exp-date {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: rgba(232,228,220,0.25);
+  }
+
+  /* TALKS / HIGHLIGHTS */
+  .highlights {
+    padding: 2rem 3rem 3rem;
+  }
+
+  .highlight-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 0;
+  }
+
+  .highlight-card {
+    padding: 1.5rem;
+    border: 0.5px solid rgba(232,228,220,0.12);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .highlight-card:hover { border-color: rgba(232,228,220,0.28); }
+
+  .highlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: rgba(212,190,130,0.5);
+  }
+
+  .highlight-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .highlight-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .highlight-sub {
+    font-size: 0.78rem;
+    color: rgba(232,228,220,0.45);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* CERTIFICATIONS */
+  .certs {
+    padding: 2rem 3rem 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .cert-pill {
+    padding: 0.6rem 1.2rem;
+    border: 0.5px solid rgba(232,228,220,0.15);
+    border-radius: 1px;
+    font-size: 0.8rem;
+    color: rgba(232,228,220,0.65);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .cert-pill:hover {
+    border-color: rgba(212,190,130,0.4);
+    color: rgba(212,190,130,0.9);
+  }
+
+  /* ABOUT / QUOTE */
+  .about {
+    padding: 4rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(232,228,220,0.3);
+  }
+
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.6;
+    color: rgba(232,228,220,0.8);
+  }
+
+  .about-quote span {
+    color: rgba(212,190,130,0.85);
+    font-style: normal;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: rgba(232,228,220,0.4);
+  }
+
+  .footer-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(232,228,220,0.35);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(232,228,220,0.2);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: rgba(212,190,130,0.8);
+    border-color: rgba(212,190,130,0.4);
+  }
+
+  /* Animate in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * { animation: fadeUp 0.7s ease both; }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+
+  .hero-right > * { animation: fadeUp 0.7s ease both; }
+  .hero-right > *:nth-child(1) { animation-delay: 0.3s; }
+  .hero-right > *:nth-child(2) { animation-delay: 0.45s; }
+  .hero-right > *:nth-child(3) { animation-delay: 0.6s; }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="page">
+
+<nav>
+  <div class="nav-logo">Hamza Mehrali</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#highlights">Highlights</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="https://www.linkedin.com/in/hamzamehrali-843b14380" class="nav-cta">LinkedIn →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-label">Academic Scholar · Haberdashers' Boys' School · Year 11</div>
+    <div>
+      <h1 class="hero-name">Hamza<br><em>Mehrali</em></h1>
+      <p class="hero-tagline">A Year 11 student with a serious interest in politics, technology, economics, and the big questions that shape our world. Debater. Speaker. Builder.</p>
+    </div>
+    <div class="hero-badges">
+      <span class="badge accent">TEDx Speaker</span>
+      <span class="badge">AI MUN Delegate</span>
+      <span class="badge">Next Voters Fellow</span>
+      <span class="badge">NHS Hackathon</span>
+      <span class="badge">UCL Summer School</span>
+      <span class="badge">PPE Aspirant</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+      <div class="stat-block">
+        <div class="stat-number">6+</div>
+        <div class="stat-label">Programmes & experiences</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Certifications earned</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">65</div>
+        <div class="stat-label">Teams competed against at Durham</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">Y11</div>
+        <div class="stat-label">GCSEs in progress</div>
+      </div>
+    </div>
+    <div class="school-note">
+      <div class="school-note-label">Currently</div>
+      <div class="school-note-text">Academic Scholar at Haberdashers' Boys' School, completing GCSEs with ambitions to study PPE at university.</div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Experience</h2>
+  </div>
+  <div class="exp-grid">
+
+    <div class="exp-item">
+      <div class="exp-org">AI Student Community</div>
+      <div class="exp-role">AI MUN Delegate</div>
+      <p class="exp-desc">Represented global student voices at one of the world's largest student-led AI initiatives — debating how artificial intelligence reshapes education, human rights, security, and sustainable development.</p>
+      <div class="exp-date">Nov 2025 – Apr 2026</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-org">Next Voters Fellowship</div>
+      <div class="exp-role">Fellow</div>
+      <p class="exp-desc">Selected for a cohort of exceptional young leaders working to improve voting systems and democratic participation across Canada and globally — focusing on creative problem-solving and civic innovation.</p>
+      <div class="exp-date">Sep 2025 – Feb 2026</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-org">King's College London</div>
+      <div class="exp-role">Unlocking AI & Computer Science</div>
+      <p class="exp-desc">Eight-week programme featuring interactive sessions with PhD researchers on AI, quantum computing, energy efficiency, and the gender gap in tech — providing real insight into university-level research.</p>
+      <div class="exp-date">Oct – Dec 2025</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-org">UCL East</div>
+      <div class="exp-role">Computer Science Summer School</div>
+      <p class="exp-desc">The only Year 10 student on a five-day programme. Built a smart city design project and an Arduino bioreactor circuit in teams, with talks from industry leaders including Dr Suran Goonatilake OBE.</p>
+      <div class="exp-date">Jul 2025</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-org">NHS Clinical AI & Quantum Hackathon</div>
+      <div class="exp-role">Participant & Builder</div>
+      <p class="exp-desc">The only teenager in the room. Co-created a prototype app — The Waiting Room — using Lovable AI, designed to make GP waiting room time more productive through personalised health dashboards.</p>
+      <div class="exp-date">Mar 2025</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-org">RoboThink, Stanmore</div>
+      <div class="exp-role">Work Experience — STEM Teaching Assistant</div>
+      <p class="exp-desc">Supported children at a robotics and STEM centre during February half term — helping them build robots independently while drawing on prior experience teaching at Sunday school weekly.</p>
+      <div class="exp-date">Feb 2025</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="highlights">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Highlights</h2>
+  </div>
+  <div class="highlights">
+    <div class="highlight-strip">
+
+      <div class="highlight-card">
+        <span class="highlight-icon">◈</span>
+        <div class="highlight-title">TEDx Talk — Colonialism's Legacy</div>
+        <p class="highlight-sub">Delivered a school TEDx talk exploring how colonialism continues to shape borders, economies, language, and identity today — grounded in his own family's story across Partition and Uganda.</p>
+      </div>
+
+      <div class="highlight-card">
+        <span class="highlight-icon">◈</span>
+        <div class="highlight-title">Durham Schools Debating Competition</div>
+        <p class="highlight-sub">Competed among 65 teams from 22 schools at one of the world's largest residential school debating events, hosted by the Durham Union Society.</p>
+      </div>
+
+      <div class="highlight-card">
+        <span class="highlight-icon">◈</span>
+        <div class="highlight-title">The Waiting Room — NHS Prototype</div>
+        <p class="highlight-sub">Built a working AI-powered app prototype at a clinical hackathon, live on Lovable. Designed to personalise the GP waiting experience through smart pre-appointment prompts.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Certifications & recognition</h2>
+  </div>
+  <div class="certs">
+    <span class="cert-pill">Lloyds Banking Group — Data Work Experience Certificate</span>
+    <span class="cert-pill">Unlocking AI & Computer Science — King's College London</span>
+    <span class="cert-pill">Academic Scholar — Haberdashers' Boys' School</span>
+    <span class="cert-pill">Next Voters Fellow 2025–26</span>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about">
+    <div class="about-label">In his own words</div>
+    <blockquote class="about-quote">
+      "I am a positive, driven individual who thrives in team environments. I work well as a leader due to my experience with public speaking and <span>planning projects productively</span> — and I believe the best ideas come from genuine curiosity about how the world works."
+    </blockquote>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Hamza Mehrali</div>
+  <div style="display:flex; gap:2rem; align-items:center;">
+    <a href="mailto:hj.mehrali@gmail.com" class="footer-link">hj.mehrali@gmail.com</a>
+    <a href="https://www.linkedin.com/in/hamzamehrali-843b14380" class="footer-link">LinkedIn profile →</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
